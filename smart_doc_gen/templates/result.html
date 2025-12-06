@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Doc Generator – 完了</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- 完了メッセージ -->
+        <h1 class="title">📁 生成が完了しました！</h1>
+        <p class="subtitle">Excelレポートをダウンロードできます。</p>
+
+        <!-- ダウンロードボタン -->
+        <a href="{{ file_url }}" class="btn-download" download>
+            Excelファイルをダウンロード
+        </a>
+
+        <!-- OCR結果がある場合だけ表示（任意） -->
+        {% if ocr_text %}
+        <div class="ocr-box">
+            <h2>抽出されたテキスト</h2>
+            <pre>{{ ocr_text }}</pre>
+        </div>
+        {% endif %}
+
+        <!-- ホームへ戻る -->
+        <a href="{{ url_for('index') }}" class="btn-back">
+            ホームへ戻る
+        </a>
+
+    </div>
+
+    <!-- JS（必要なら） -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>

@@ -1,0 +1,179 @@
+/* --------------- */
+/* 基本レイアウト */
+/* --------------- */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Helvetica", "Arial", sans-serif;
+    background: #f5f7fa;
+    color: #333;
+}
+
+.container {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+/* --------------- */
+/* タイトル & 説明 */
+/* --------------- */
+
+.title {
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+/* --------------- */
+/* フォーム要素系 */
+/* --------------- */
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+}
+
+input[type="text"],
+textarea,
+input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #fafafa;
+    transition: 0.2s;
+    box-sizing: border-box;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #007bff;
+    background: #fff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* --------------- */
+/* ボタン類 */
+/* --------------- */
+
+.btn-submit,
+.btn-download,
+.btn-back {
+    display: inline-block;
+    width: 80%;
+    padding: 14px 0;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    margin: 12px auto;
+    transition: 0.25s;
+}
+
+/* メインボタン（青） */
+.btn-submit,
+.btn-download {
+    background: #007bff;
+    color: #fff;
+}
+
+.btn-submit:hover,
+.btn-download:hover {
+    background: #005fcc;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.25);
+}
+
+/* 戻るボタン（グレー） */
+.btn-back {
+    background: #e4e4e4;
+    color: #333;
+}
+
+.btn-back:hover {
+    background: #d5d5d5;
+    transform: translateY(-2px);
+}
+
+/* --------------- */
+/* OCR 結果ボックス */
+/* --------------- */
+
+.ocr-box {
+    background: #fafafa;
+    padding: 20px;
+    text-align: left;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin: 25px 0;
+}
+
+.ocr-box h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.ocr-box pre {
+    font-family: "Menlo", monospace;
+    font-size: 14px;
+    white-space: pre-wrap;
+}
+
+/* --------------- */
+/* 画像プレビュー */
+/* --------------- */
+
+.image-preview {
+    margin: 20px 0;
+    border: 2px dashed #ccc;
+    padding: 20px;
+    border-radius: 10px;
+    background: #fafafa;
+}
+
+.image-preview img {
+    max-width: 100%;
+    display: none;
+    border-radius: 10px;
+}
+
+/* --------------- */
+/* レスポンシブ対応 */
+/* --------------- */
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+        margin: 30px 15px;
+    }
+
+    .title {
+        font-size: 22px;
+    }
+
+    .btn-submit,
+    .btn-download,
+    .btn-back {
+        width: 100%;
+    }
+}
