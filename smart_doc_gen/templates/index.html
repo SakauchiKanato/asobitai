@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Doc Generator – アップロード</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- タイトル -->
+        <h1 class="title">Smart Doc Generator</h1>
+        <p class="subtitle">画像をアップロードすると、自動でExcelレポートを生成します。</p>
+
+        <!-- アップロードフォーム -->
+        <form id="uploadForm" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+
+            <!-- 入力欄（自由に追加可） -->
+            <div class="form-group">
+                <label for="userName">氏名</label>
+                <input type="text" id="userName" name="userName" placeholder="例：山田太郎" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">説明する内容</label>
+                <textarea id="description" name="description" rows="3" placeholder="OCRで抽出したい内容など"></textarea>
+            </div>
+
+            <!-- 画像アップロード -->
+            <div class="form-group">
+                <label for="imageFile">OCR画像アップロード</label>
+                <input type="file" id="imageFile" name="imageFile" accept="image/*" required>
+            </div>
+
+            <!-- プレビュー表示（JS側で制御） -->
+            <div class="image-preview" id="imagePreview">
+                <p>ここにプレビューが表示されます</p>
+                <img id="previewImg" src="" alt="">
+            </div>
+
+            <!-- 送信ボタン -->
+            <button type="submit" class="btn-submit">レポートを生成する</button>
+        </form>
+    </div>
+
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+
+</html>
