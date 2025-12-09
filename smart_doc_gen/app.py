@@ -69,6 +69,5 @@ def download(filename):
         os.path.join(app.config['OUTPUT_FOLDER'], filename),
         as_attachment=True
     )
-
 if __name__ == '__main__':
     app.run(debug=True)
