@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Doc Generator – アップロード</title>
+    <title>スマートドキュメントジェネレーター – アップロード</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -14,7 +14,7 @@
     <div class="container">
 
         <!-- タイトル -->
-        <h1 class="title">Smart Doc Generator</h1>
+        <h1 class="title">スマートドキュメントジェネレーター</h1>
         <p class="subtitle">画像をアップロードすると、自動でExcelレポートを生成します。</p>
 
         <!-- アップロードフォーム -->
@@ -31,16 +31,30 @@
                 <textarea id="description" name="description" rows="3" placeholder="OCRで抽出したい内容など"></textarea>
             </div>
 
-            <!-- 画像アップロード -->
+            <!-- 採点前画像アップロード -->
             <div class="form-group">
-                <label for="imageFile">OCR画像アップロード</label>
+                <label for="imageFile">採点前の画像をアップロード</label>
                 <input type="file" id="imageFile" name="imageFile" accept="image/*" required>
             </div>
 
-            <!-- プレビュー表示（JS側で制御） -->
-            <div class="image-preview" id="imagePreview">
-                <p>ここにプレビューが表示されます</p>
-                <img id="previewImg" src="" alt="">
+            <!-- 採点後画像アップロード -->
+            <div class="form-group">
+                <label for="imageFile2">採点後の画像をアップロード</label>
+                <input type="file" id="imageFile2" name="imageFile2" accept="image/*" required>
+            </div>
+
+
+
+            <!-- 採点前画像プレビュー -->
+            <div class="image-preview" id="imagePreview1">
+                <p>採点前のプレビュー</p>
+                <img id="previewImg1" src="" alt="">
+            </div>
+
+            <!-- 採点後画像プレビュー -->
+            <div class="image-preview" id="imagePreview2">
+                <p>採点後のプレビュー</p>
+                <img id="previewImg2" src="" alt="">
             </div>
 
             <!-- 送信ボタン -->
