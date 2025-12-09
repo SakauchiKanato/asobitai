@@ -19,53 +19,49 @@ def index():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    # 1. ファイルのアップロード確認
+    # 1. 画像ファイルのチェック
     if 'target_image' not in request.files:
-        return "ファイルがありません", 400
+        return "画像ファイルがありません", 400
+    image_file = request.files['target_image']
+    if image_file.filename == '':
+        return "画像ファイルが選択されていません", 400
+
+    # 2. Excelテンプレートのチェック
+    template_path = None
+    if 'template_file' in request.files:
+        temp_file = request.files['template_file']
+        if temp_file.filename != '':
+            temp_filename = secure_filename(temp_file.filename)
+            template_path = os.path.join(app.config['UPLOAD_FOLDER'], temp_filename)
+            temp_file.save(template_path)
     
-    file = request.files['target_image']
-    if file.filename == '':
-        return "ファイルが選択されていません", 400
+    # テンプレートがない場合はデフォルトを使用
+    if template_path is None:
+        template_path = "assets/templates/default.xlsx"  # デフォルトパス
     
-    # 2. ファイルを一時保存
-    filename = secure_filename(file.filename)
+    # 画像を保存
+    filename = secure_filename(image_file.filename)
     filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-    file.save(filepath)
+    image_file.save(filepath)
     
-    # 3. OCR解析 (YOLOを使用)
+    # 3. OCR解析 (YOLO)
     yolo_results = ocr_service.analyze_image(filepath)
     
-    # 4. 解析結果をY座標でソート (上から順に)
-    sorted_results = sorted(yolo_results, key=lambda x: x['y_center'])
-    
-    # 5. 単元情報の取得
-    # フォームから単元情報を取得（複数選択に対応）
+    # 4. 単元情報の取得
     units = request.form.getlist('units')
     
-    # 6. create_reportに渡すデータ形式に変換
-    grading_data = []
-    for i, result in enumerate(sorted_results):
-        # 問題番号は1から始める
-        problem_num = i + 1
-        
-        # 単元名の設定 (単元情報が存在すればそれを使用、インデックスがない場合はNone)
-        unit = units[i] if i < len(units) else None
-        
-        grading_data.append({
-            "num": problem_num,
-            "unit": unit,
-            "result": result['mark']  # ◯, ❌, △ などのマーク
-        })
+    # 5. Excel生成
+    try:
+        output_path = excel_service.create_from_yolo(yolo_results, units, template_path)
+    except Exception as e:
+        return f"Excel作成中にエラーが発生しました: {str(e)}", 500
     
-    # 7. Excel生成
-    output_path = excel_service.create_report(grading_data)
-    
-    # 8. 結果画面を表示
+    # 6. 結果画面を表示
     return render_template(
         'result.html', 
         download_link=output_path,
         filename=os.path.basename(output_path),
-        result_count=len(grading_data)
+        result_count=len(yolo_results)
     )
 
 @app.route('/download/<filename>')
@@ -74,6 +70,8 @@ def download(filename):
         os.path.join(app.config['OUTPUT_FOLDER'], filename),
         as_attachment=True
     )
+
+
 from flask import Flask, render_template, request
 import os
 
