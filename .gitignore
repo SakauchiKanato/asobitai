@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -206,6 +207,7 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
+<<<<<<<< HEAD:.gitignore
 
 
 *.png
@@ -220,3 +222,11 @@ __marimo__/
 runs/
 
 sample*
+========
+.venv/
+smart_doc_gen/.venv/
+>>>>>>>> main:smart_doc_gen/.gitignore
+=======
+**/.venv/
+
+>>>>>>> main
