@@ -217,6 +217,7 @@ __marimo__/
 *.svg
 *.pdf
 *.mp4
+*.xlsx
 
 
 runs/
