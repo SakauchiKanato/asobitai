@@ -3,9 +3,8 @@ import json
 import google.generativeai as genai
 from PIL import Image, ImageOps
 
-# ==========================================
-# ★重要: APIキー
-# ==========================================
+
+# APIキー
 MY_API_KEY = "YOUR_API_KEY" 
 
 genai.configure(api_key=MY_API_KEY)
@@ -98,5 +97,7 @@ def analyze_image(image_path):
         return results
 
     except Exception as e:
-        print(f"❌ AI解析エラー: {e}")
+
+        print(f"AI解析エラー: {e}")
+
         return []
