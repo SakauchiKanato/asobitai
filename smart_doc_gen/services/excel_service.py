@@ -7,42 +7,30 @@ from datetime import datetime
 
 OUTPUT_DIR = "output"
 
-def create_from_yolo(yolo_results, unit_list, template_path):
+def create_from_yolo(yolo_results, unit_list, template_path, student_name=None):
     """
-    ★新機能: YOLOの生データを受け取って、Excelを作成する便利関数
-    
-    Args:
-        yolo_results (list): YOLOから来たデータ [{'class': '◯', 'y': 500}, ...]
-        unit_list (list): ユーザーが画面で選んだ単元のリスト ["計算", "関数"...]
-        template_path (str): テンプレートExcelのパス
+    YOLOの生データを受け取って、Excelを作成する便利関数
     """
-    
-    # 1. YOLOのデータを「Y座標（上からの位置）」順に並べ替える
-    # これをやらないと、下の問題が「問1」になってしまう！
-    # 'y' というキーに入っている数値が小さい順（＝上にある順）にソート
+    # 1. YOLOのデータを「Y座標」順にソート
     sorted_yolo = sorted(yolo_results, key=lambda item: item.get('y', 0))
 
-    # 2. create_report が読める形式（辞書リスト）に変換する
+    # 2. データの整形
     formatted_data = []
-    
     for i, item in enumerate(sorted_yolo):
-        # 単元リストからi番目の単元を取る（もし足りなければ「未設定」）
         unit_name = unit_list[i] if i < len(unit_list) else "未設定"
-        
-        # 変換
         formatted_data.append({
-            "num": i + 1,            # 0スタートなので+1して問番号にする
-            "unit": unit_name,       # 単元名
-            "result": item.get('class', '?') # ◯か❌か
+            "num": i + 1,
+            "unit": unit_name,
+            "result": item.get('class', '?')
         })
     
-    # 3. 既存の最強関数を呼び出す
-    return create_report(formatted_data, template_path)
+    # 3. レポート作成へ
+    return create_report(formatted_data, template_path, student_name)
 
 
-def create_report(grading_data_list, template_path):
+def create_report(grading_data_list, template_path, student_name=None):
     """
-    (既存のロジック) ユーザーのExcelレイアウトを解析し、書き込む関数
+    Excelを作成・編集する関数（テンプレートがなくても自動生成するように修正）
     """
     
     # --- 準備 ---
@@ -51,20 +39,36 @@ def create_report(grading_data_list, template_path):
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     save_path = os.path.join(OUTPUT_DIR, filename)
     
-    if not os.path.exists(template_path):
-        print(f"【エラー】テンプレートが見つかりません: {template_path}")
-        return None
+    # ==================================================
+    # ★ここが重要: ファイルがあるかチェックし、なければ新規作成する
+    # ==================================================
+    if template_path and os.path.exists(template_path):
+        # テンプレートがある場合 -> コピーして使う
+        print(f"テンプレートを使用します: {template_path}")
+        shutil.copy(template_path, save_path)
+        wb = openpyxl.load_workbook(save_path)
+    else:
+        # ★テンプレートがない場合 -> 白紙から新規作成する！（これでNoneが返らなくなる）
+        print(f"テンプレートが見つからないため、新規作成します: {save_path}")
+        wb = openpyxl.Workbook()
+        ws = wb.active
+        # 最低限のヘッダーを書き込んでおく
+        ws.append(["No.", "単元(Unit)", "結果(Result)", "判定(Status)"])
+        wb.save(save_path)
 
-    shutil.copy(template_path, save_path)
-    wb = openpyxl.load_workbook(save_path)
     ws = wb.active
+
+    # --- 名前書き込み ---
+    if student_name:
+        # 書き込む場所（B1）
+        ws['B1'] = student_name
+        print(f"氏名「{student_name}」を書き込みました")
 
     # --- 1. ヘッダー行を探す ---
     header_row = None
     col_map = {} 
 
     for r in range(1, 21):
-        # 行の値を全部つなげてチェック
         row_values = [str(ws.cell(row=r, column=c).value or "") for c in range(1, 20)]
         row_text = "".join(row_values)
         
@@ -79,8 +83,8 @@ def create_report(grading_data_list, template_path):
             break
     
     if header_row is None:
-        print("【警告】ヘッダーが見つかりませんでした。")
-        return save_path
+        header_row = 1
+        col_map = {"num": 1, "unit": 2, "result": 3, "status": 4}
 
     # --- 2. 書き込み ---
     current_row = header_row + 1
@@ -152,31 +156,3 @@ def create_report(grading_data_list, template_path):
     wb.save(save_path)
     print(f"Excel作成完了: {save_path}")
     return save_path
-
-# --- 動作確認用（YOLOシミュレーション） ---
-if __name__ == "__main__":
-    
-    # 1. YOLOからこんなデータが来たとする（順番バラバラ！）
-    # 'y' は画像の縦の位置（小さいほど上）
-    raw_yolo_data = [
-        {'class': '❌', 'y': 800, 'confidence': 0.9}, # 問3（一番下）
-        {'class': '◯', 'y': 100, 'confidence': 0.9}, # 問1（一番上）
-        {'class': '◯', 'y': 400, 'confidence': 0.8}, # 問2（真ん中）
-    ]
-    
-    # 2. ユーザーが画面で選んだ単元リスト
-    user_selected_units = ["計算", "関数", "図形"]
-    
-    # 3. あなたの自作テンプレート
-    my_file = "assets/templates/test.xlsx" 
-
-    if os.path.exists(my_file):
-        # ★ここが変更点！ 新しい関数を使う
-        create_from_yolo(raw_yolo_data, user_selected_units, my_file)
-    else:
-        # ダミー作成
-        wb_dummy = openpyxl.Workbook()
-        ws_dummy = wb_dummy.active
-        ws_dummy.append(["判定(Status)", "結果(Result)", "ジャンル(Unit)", "No."])
-        wb_dummy.save(my_file)
-        print("ダミー作成。もう一度実行してください。")
