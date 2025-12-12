@@ -6,7 +6,7 @@ from PIL import Image, ImageOps
 # ==========================================
 # ★重要: APIキー
 # ==========================================
-MY_API_KEY = "YOUR_API_KEY" 
+MY_API_KEY = "AIzaSyCGV0Qjq8kDnibO6gOhRX5MNKZDGS4U9S0" 
 
 genai.configure(api_key=MY_API_KEY)
 

@@ -1,0 +1,42 @@
+[
+  {
+    "box_2d": {
+      "xmax": 475,
+      "xmin": 290,
+      "ymax": 445,
+      "ymin": 275
+    },
+    "description": "左上の問題に対する斜線（バツ）",
+    "mark_type": "Cross"
+  },
+  {
+    "box_2d": {
+      "xmax": 475,
+      "xmin": 345,
+      "ymax": 635,
+      "ymin": 465
+    },
+    "description": "左下部の問題に対する斜線（バツ）",
+    "mark_type": "Cross"
+  },
+  {
+    "box_2d": {
+      "xmax": 785,
+      "xmin": 565,
+      "ymax": 445,
+      "ymin": 275
+    },
+    "description": "右上の問題に対する斜線（バツ）",
+    "mark_type": "Cross"
+  },
+  {
+    "box_2d": {
+      "xmax": 785,
+      "xmin": 565,
+      "ymax": 635,
+      "ymin": 465
+    },
+    "description": "右下部の問題に対する斜線（バツ）",
+    "mark_type": "Cross"
+  }
+]

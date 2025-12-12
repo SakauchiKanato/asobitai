@@ -1,23 +1,59 @@
 /* --------------- */
+/* 変数定義（テーマカラー） */
+/* --------------- */
+:root {
+    /* グラデーションカラー: 紫〜青のモダンな配色 */
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --hover-gradient: linear-gradient(135deg, #5a6fd6 0%, #683fa1 100%);
+    --bg-color: #f3f4f6;
+    --card-bg: #ffffff;
+    --text-main: #2d3748;
+    --text-sub: #718096;
+    --input-border: #e2e8f0;
+    --input-focus: #764ba2;
+}
+
+/* --------------- */
 /* 基本レイアウト */
 /* --------------- */
 
 body {
     margin: 0;
     padding: 0;
-    font-family: "Helvetica", "Arial", sans-serif;
-    background: #f5f7fa;
-    color: #333;
+    font-family: "Helvetica Neue", "Arial", "Hiragino Kaku Gothic ProN", "Hiragino Sans", sans-serif;
+    background: var(--bg-color);
+    /* 背景にうっすらグラデーションを入れる */
+    background-image: radial-gradient(circle at 10% 20%, rgb(242, 246, 255) 0%, rgb(219, 228, 255) 90%);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .container {
-    max-width: 600px;
-    margin: 60px auto;
-    padding: 30px;
-    background: #fff;
-    border-radius: 14px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 550px;
+    margin: 40px auto;
+    padding: 40px;
+    background: var(--card-bg);
+    /* ふんわり浮いているような影 */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 4px 10px rgba(0, 0, 0, 0.03);
+    border-radius: 20px; /* 角丸を強めに */
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 上部にアクセントラインを入れる */
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: var(--primary-gradient);
 }
 
 /* --------------- */
@@ -25,15 +61,23 @@ body {
 /* --------------- */
 
 .title {
-    font-size: 26px;
-    font-weight: 700;
+    font-size: 28px;
+    font-weight: 800;
     margin-bottom: 10px;
+    letter-spacing: 0.05em;
+    color: #1a202c;
+    /* タイトル文字にも少しグラデーションをかける */
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
 }
 
 .subtitle {
-    font-size: 15px;
-    color: #666;
-    margin-bottom: 25px;
+    font-size: 14px;
+    color: var(--text-sub);
+    margin-bottom: 35px;
+    line-height: 1.6;
 }
 
 /* --------------- */
@@ -41,13 +85,15 @@ body {
 /* --------------- */
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     text-align: left;
 }
 
 .form-group label {
-    font-weight: 600;
-    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #4a5568;
+    margin-bottom: 8px;
     display: block;
 }
 
@@ -55,21 +101,29 @@ input[type="text"],
 textarea,
 input[type="file"] {
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     font-size: 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background: #fafafa;
-    transition: 0.2s;
+    color: #2d3748;
+    border: 2px solid var(--input-border);
+    border-radius: 12px;
+    background: #fdfdfd;
+    transition: all 0.3s ease;
     box-sizing: border-box;
+}
+
+/* ファイル選択ボタンのデザイン調整 */
+input[type="file"] {
+    padding: 10px;
+    background: #fff;
+    cursor: pointer;
 }
 
 input:focus,
 textarea:focus {
-    border-color: #007bff;
+    border-color: var(--input-focus);
     background: #fff;
     outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+    box-shadow: 0 0 0 3px rgba(118, 75, 162, 0.1);
 }
 
 /* --------------- */
@@ -80,63 +134,51 @@ textarea:focus {
 .btn-download,
 .btn-back {
     display: inline-block;
-    width: 80%;
-    padding: 14px 0;
-    border-radius: 8px;
+    width: 100%; /* 幅いっぱいに */
+    padding: 16px 0;
+    border-radius: 50px; /* 丸みのあるボタン */
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     text-decoration: none;
-    margin: 12px auto;
-    transition: 0.25s;
+    margin: 15px 0 5px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    letter-spacing: 0.05em;
+    position: relative;
+    top: 0;
 }
 
-/* メインボタン（青） */
+/* メインボタン（グラデーション） */
 .btn-submit,
 .btn-download {
-    background: #007bff;
+    background: var(--primary-gradient);
     color: #fff;
+    box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
 }
 
 .btn-submit:hover,
 .btn-download:hover {
-    background: #005fcc;
+    background: var(--hover-gradient);
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 123, 255, 0.25);
+    box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
 }
 
-/* 戻るボタン（グレー） */
+.btn-submit:active,
+.btn-download:active {
+    transform: translateY(0);
+}
+
+/* 戻るボタン（シンプル） */
 .btn-back {
-    background: #e4e4e4;
-    color: #333;
+    background: #edf2f7;
+    color: #4a5568;
+    margin-top: 10px;
 }
 
 .btn-back:hover {
-    background: #d5d5d5;
-    transform: translateY(-2px);
-}
-
-/* --------------- */
-/* OCR 結果ボックス */
-/* --------------- */
-
-.ocr-box {
-    background: #fafafa;
-    padding: 20px;
-    text-align: left;
-    border-radius: 10px;
-    border: 1px solid #ddd;
-    margin: 25px 0;
-}
-
-.ocr-box h2 {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-.ocr-box pre {
-    font-family: "Menlo", monospace;
-    font-size: 14px;
-    white-space: pre-wrap;
+    background: #e2e8f0;
+    color: #2d3748;
 }
 
 /* --------------- */
@@ -145,16 +187,58 @@ textarea:focus {
 
 .image-preview {
     margin: 20px 0;
-    border: 2px dashed #ccc;
-    padding: 20px;
-    border-radius: 10px;
-    background: #fafafa;
+    border: 2px dashed #cbd5e0;
+    padding: 30px;
+    border-radius: 12px;
+    background: #f7fafc;
+    text-align: center;
+    color: #a0aec0;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.image-preview:hover {
+    border-color: #764ba2;
+    background: #f3ebff;
+    color: #764ba2;
 }
 
 .image-preview img {
     max-width: 100%;
-    display: none;
-    border-radius: 10px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* --------------- */
+/* OCR 結果ボックス */
+/* --------------- */
+
+.ocr-box {
+    background: #2d3748;
+    color: #fff;
+    padding: 20px;
+    text-align: left;
+    border-radius: 12px;
+    margin: 25px 0;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.ocr-box h2 {
+    font-size: 16px;
+    color: #a0aec0;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #4a5568;
+    padding-bottom: 5px;
+}
+
+.ocr-box pre {
+    font-family: "Menlo", "Consolas", monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    color: #63b3ed; /* コードっぽい青色 */
 }
 
 /* --------------- */
@@ -163,17 +247,14 @@ textarea:focus {
 
 @media (max-width: 480px) {
     .container {
-        padding: 20px;
-        margin: 30px 15px;
+        margin: 0;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 30px 20px;
+        min-height: 100vh;
     }
-
+    
     .title {
-        font-size: 22px;
-    }
-
-    .btn-submit,
-    .btn-download,
-    .btn-back {
-        width: 100%;
+        font-size: 24px;
     }
 }
