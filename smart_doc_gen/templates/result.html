@@ -17,11 +17,10 @@
         <h1 class="title">📁 生成が完了しました！</h1>
         <p class="subtitle">Excelレポートをダウンロードできます。</p>
 
-        <!-- ダウンロードボタン -->
-        <a href="{{ file_url }}" class="btn-download" download>
+        <a href="{{ download_link }}" class="btn-download">
             Excelファイルをダウンロード
         </a>
-
+        
         <!-- OCR結果がある場合だけ表示（任意） -->
         {% if ocr_text %}
         <div class="ocr-box">
