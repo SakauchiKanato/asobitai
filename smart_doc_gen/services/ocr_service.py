@@ -3,14 +3,14 @@ import json
 import google.generativeai as genai
 from PIL import Image, ImageOps
 
-# ==========================================
+
 # ★重要: APIキー
-# ==========================================
+
 MY_API_KEY = "AIzaSyBqm429BKLB0Eei2eAbHHBMC_NeKByjtHs" 
 
 genai.configure(api_key=MY_API_KEY)
 
-# ★修正: あなたのログにあった最新モデル「2.5-flash」を指定！
+# 「2.5-flash」
 MODEL_NAME = "gemini-2.5-flash"
 
 def clean_json_text(text):

@@ -16,9 +16,9 @@ app.config['OUTPUT_FOLDER'] = 'output'
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 os.makedirs(app.config['OUTPUT_FOLDER'], exist_ok=True)
 
-# -------------------------------------------------
+
 # ルーティング
-# -------------------------------------------------
+
 
 @app.route('/')
 def index():
@@ -106,8 +106,8 @@ def download(filename):
         as_attachment=True
     )
 
-# -------------------------------------------------
-# 起動スイッチ
-# -------------------------------------------------
+
+# 実行
+
 if __name__ == '__main__':
     app.run(debug=True)

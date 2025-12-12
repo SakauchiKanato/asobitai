@@ -39,16 +39,16 @@ def create_report(grading_data_list, template_path, student_name=None):
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     save_path = os.path.join(OUTPUT_DIR, filename)
     
-    # ==================================================
+
     # ★ここが重要: ファイルがあるかチェックし、なければ新規作成する
-    # ==================================================
+
     if template_path and os.path.exists(template_path):
         # テンプレートがある場合 -> コピーして使う
         print(f"テンプレートを使用します: {template_path}")
         shutil.copy(template_path, save_path)
         wb = openpyxl.load_workbook(save_path)
     else:
-        # ★テンプレートがない場合 -> 白紙から新規作成する！（これでNoneが返らなくなる）
+        # ★テンプレートがない場合 -> 白紙から新規作成する！
         print(f"テンプレートが見つからないため、新規作成します: {save_path}")
         wb = openpyxl.Workbook()
         ws = wb.active
@@ -58,13 +58,13 @@ def create_report(grading_data_list, template_path, student_name=None):
 
     ws = wb.active
 
-    # --- 名前書き込み ---
+    # 名前書き込み 
     if student_name:
         # 書き込む場所（B1）
         ws['B1'] = student_name
         print(f"氏名「{student_name}」を書き込みました")
 
-    # --- 1. ヘッダー行を探す ---
+    # 1. ヘッダー行を探す
     header_row = None
     col_map = {} 
 
@@ -86,7 +86,7 @@ def create_report(grading_data_list, template_path, student_name=None):
         header_row = 1
         col_map = {"num": 1, "unit": 2, "result": 3, "status": 4}
 
-    # --- 2. 書き込み ---
+    # 2. 書き込み
     current_row = header_row + 1
     thin_border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
     unit_stats = {} 
@@ -130,7 +130,7 @@ def create_report(grading_data_list, template_path, student_name=None):
 
         current_row += 1
 
-    # --- 3. グラフ作成 ---
+    # 3. グラフ作成
     max_used_col = max(col_map.values()) if col_map else 5
     graph_start_col = max_used_col + 2 
 
