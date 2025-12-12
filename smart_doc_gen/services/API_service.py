@@ -3,9 +3,8 @@ import json
 import google.generativeai as genai
 from PIL import Image, ImageOps
 
-
-# APIキー
-MY_API_KEY = "YOUR_API_KEY" 
+# APIキー設定
+MY_API_KEY = "自分のAPIキー" 
 
 genai.configure(api_key=MY_API_KEY)
 
