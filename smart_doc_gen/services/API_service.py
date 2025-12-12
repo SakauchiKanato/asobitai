@@ -3,14 +3,12 @@ import json
 import google.generativeai as genai
 from PIL import Image, ImageOps
 
-# ==========================================
-# ★重要: APIキー
-# ==========================================
-MY_API_KEY = "自分のAPIキー" 
+# APIキー
+MY_API_KEY = "YOUR_API_KEY" 
 
 genai.configure(api_key=MY_API_KEY)
 
-# ★修正: あなたのログにあった最新モデル「2.5-flash」を指定！
+# 最新モデル「2.5-flash」を指定！
 MODEL_NAME = "gemini-2.5-flash"
 
 def clean_json_text(text):
@@ -32,7 +30,7 @@ def analyze_image(image_path):
         return []
 
     try:
-        # 1. 画像読み込み
+        # 画像読み込み
         img = Image.open(image_path)
         img = ImageOps.exif_transpose(img) 
         if img.mode != 'RGB': img = img.convert('RGB')
@@ -55,7 +53,7 @@ def analyze_image(image_path):
     - "box_2d": [ymin, xmin, ymax, xmax] (scale 0-1000)
     """
 
-    # 3. AI実行
+    # AI実行
     try:
         model = genai.GenerativeModel(
             model_name=MODEL_NAME,
@@ -69,7 +67,7 @@ def analyze_image(image_path):
         
         print(f"   -> AI検出生データ数: {len(marks_data)} 個")
 
-        # 4. 変換ロジック
+        # 変換ロジック
         label_map = {"Circle": "◯", "Cross": "❌", "Triangle": "△", "Checkmark": "❌"}
         ignore_keywords = ["score", "number", "text", "digit", "点", "文字"]
         results = []
@@ -98,5 +96,5 @@ def analyze_image(image_path):
         return results
 
     except Exception as e:
-        print(f"❌ AI解析エラー: {e}")
+        print(f"AI解析エラー: {e}")
         return []
