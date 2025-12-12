@@ -3,6 +3,7 @@ import json
 import google.generativeai as genai
 from PIL import Image, ImageOps
 
+
 # APIキー
 MY_API_KEY = "YOUR_API_KEY" 
 
@@ -40,7 +41,7 @@ def analyze_image(image_path):
         print(f"画像読み込みエラー: {e}")
         return []
 
-    # 2. プロンプト
+    # プロンプト
     prompt = """
     Analyze this image and detect ALL handwritten red/colored ink grading marks.
     Classify each element into one of these types:
@@ -96,5 +97,7 @@ def analyze_image(image_path):
         return results
 
     except Exception as e:
+
         print(f"AI解析エラー: {e}")
+
         return []
